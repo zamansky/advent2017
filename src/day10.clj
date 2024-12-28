@@ -21,8 +21,6 @@
                                (mapv int
                                     (apply str (interpose "," data)))[17 31 73  47  23])))
 
-(data->part2data [1 2 3])
-(data->part2data data)
 
 (defn next-cycle [[l cur seqlen skip]]
   (if (= seqlen 0)
@@ -48,13 +46,11 @@
         (recur nl nc nskip (rest seqlens))))))
 
 
-(def p2data (data->part2data data))
 
 (defn s->knot-input [s]
   (vec (concat (mapv int s) [17 31 73 47 23])
   ))
 
-(s->knot-input "AOC")
 (defn knot-hash [s]
   (let [data (s->knot-input s)
         z (loop [i 0 l (vec (range 256)) cur 0 skip 0 data data]
@@ -67,5 +63,4 @@
 
 (knot-hash "AoC 2017")
 
-;; 3efbe78a8d82f29979031a4aa0b16a9d.
 
