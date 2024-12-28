@@ -50,18 +50,22 @@
 
 (def p2data (data->part2data data))
 
-(def z (loop [i 0 l (vec (range 256)) cur 0 skip 0 data p2data]
-  (if (= i 64)
-    l
-    (let [ [nl nc nskip] (run-cycle [l cur skip data]) ]
-      (recur (inc i) nl  nc nskip data)))))
+(defn s->knot-input [s]
+  (vec (concat (mapv int s) [17 31 73 47 23])
+  ))
+
+(s->knot-input "AOC")
+(defn knot-hash [s]
+  (let [data (s->knot-input s)
+        z (loop [i 0 l (vec (range 256)) cur 0 skip 0 data data]
+            (if (= i 64)
+              l
+              (let [ [nl nc nskip] (run-cycle [l cur skip data]) ]
+                (recur (inc i) nl  nc nskip data))))
+        ]
+    (str/join "" (map #(format "%02x" %) (map (partial apply bit-xor) (partition 16  z))))))
+
+(knot-hash "AoC 2017")
 
 ;; 3efbe78a8d82f29979031a4aa0b16a9d.
-(str/join "" (map #(format "%02x" %) (map (partial apply bit-xor) (partition 16  z))))
 
- (map char(map (partial apply bit-xor) (partition 16  z)))
-
-(format "%02x" 8)
-
-(apply bit-xor (last (partition 16 z)))
-(* 158 254)
